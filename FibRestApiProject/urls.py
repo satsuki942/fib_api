@@ -19,5 +19,5 @@ from django.urls import path, include
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('fib/', include('fib_api.urls')),
+    path('fib', include('fib_api.urls')),
 ]
