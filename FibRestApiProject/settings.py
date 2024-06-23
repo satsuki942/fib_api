@@ -23,12 +23,16 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-x%lx2+!_&5sv(4&(y1ya*hr3&vfvrjp(ou%bkvt8vhh^6rk^=d'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+# 本番環境用
+DEBUG = False
+ALLOWED_HOSTS = ['fibapp-427213.an.r.appspot.com']
 
-ALLOWED_HOSTS = [
-    'localhost',
-    '127.0.0.1'
-]
+# ローカルで動かしたいときは下のコメントを外して、django ~~ runserver　みたいなのを打つ
+# DEBUG = True
+# ALLOWED_HOSTS = [
+#     'localhost',
+#     '127.0.0.1',
+# ]
 
 
 # Application definition
