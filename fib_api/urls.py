@@ -4,4 +4,5 @@ from .views import FibNView
 
 urlpatterns = [
     path('', FibNView.as_view(),name='fib'),
+    path('/', FibNView.as_view(),name='fib_slash'),
 ]
