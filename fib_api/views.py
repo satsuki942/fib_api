@@ -10,42 +10,24 @@ class FibNView(APIView):
         REQEUST_PARAM_N = 'n'
         # リクエストパラメータの鍵が存在するかの検査
         if REQEUST_PARAM_N in self.request.GET:
-            transformed_param = self.transform_to_int(self.request.GET.get(REQEUST_PARAM_N))
-            # リクエストパラメータがintであるかを検査
-            if type(transformed_param) == ValueError:
-                result = ErrorFib(400,'Bad Request: Given request parameter value is NaN, int value is required')
-                http_status = status.HTTP_400_BAD_REQUEST
-            else:
-                result = fib(transformed_param)
-                http_status = status.HTTP_200_OK
+            try:
+                transformed_param  = int(self.request.GET.get(REQEUST_PARAM_N))
+                if transformed_param <= 0:
+                    result = FibResult(400,'Bad Request: Parameter value is less than 1')
+                else:
+                    result = FibResult(200,fib(transformed_param))
+            except ValueError:
+                result = FibResult(400,'Bad Request: Given request parameter value is NaN, int value is required')
         else:
-            result = ErrorFib(400,'Bad Request: Request parameter name is not appropriate')
-            http_status = status.HTTP_400_BAD_REQUEST
+            result = FibResult(400,'Bad Request: Request parameter name is not appropriate')
 
-        return Response(self.generate_json_fib(result), http_status)
-
-    # helper function          
-    def transform_to_int(self, s):
-        try:
-            n = int(s)
-            return n
-        except ValueError as e:
-            return e
-    
-    def generate_json_fib(self, value):
-        match value:
-            case ErrorFib():
-                return value.generate_json()
-            case int():
-                return {'result':value}
-            case _:
-                pass
+        return Response(result.generate_json(), result.get_http_status())
 
 # フィボナッチ数を計算する関数
 def fib(n):
     if n == 1 or n == 2:
         return 1
-    else:
+    elif n > 2:
         pp = 1
         p = 1
         for i in range(n-2):
@@ -53,15 +35,35 @@ def fib(n):
             pp = p
             p = c
         return c
+    else:
+        raise ValueError('A value less than 1 was passed to fib()')
 
-class ErrorFib():
-    def __init__(self, status, message):
+# リクエストに対する結果を表すクラス
+class FibResult():
+    def __init__(self, status, content):
         self.status = status
-        self.message = message
+        self.content = content
 
+    # selfの内容をjsonの形式で返す
     def generate_json(self):
-        result_json = {
-            "status":self.status,
-            "message":self.message
-        }
+        if self.status == 200:
+            result_json = {
+                "result":self.content
+            }
+        else:
+            result_json = {
+                "status":self.status,
+                "message":self.content
+            }
         return result_json
+    
+    # self.statusによって適切なHTTPステータスコードを返す
+    def get_http_status(self):
+        # 妥協した実装になっている
+        dict = {200:status.HTTP_200_OK,400:status.HTTP_400_BAD_REQUEST}
+        try:
+            http_status = dict[self.status]
+        except KeyError:
+            raise KeyError('Undefined status code was declared')
+        return http_status
+

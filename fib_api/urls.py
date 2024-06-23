@@ -3,5 +3,5 @@ from rest_framework.routers import DefaultRouter
 from .views import FibNView
 
 urlpatterns = [
-    path('', FibNView.as_view()),
+    path('', FibNView.as_view(),name='fib'),
 ]
