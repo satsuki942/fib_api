@@ -1,4 +1,4 @@
-### APIの説明
+## APIの説明
 本APIはFibonacci数列の第n項を得るためのAPIです。
 
 本APIはリクエストに応じてjson形式で結果を返します。
@@ -17,6 +17,8 @@
     curl -X GET -H "Content-Type: application/json" "https://fibapp-427213.an.r.appspot.com/fib/?format=json&n=k"
     ```
 
+## 実装について
+
 ### 使用フレームワーク
 以下のフレームワークを主に使用
 - Django
@@ -32,19 +34,18 @@
 
 ### ディレクトリ構成
 ```
-C:.
+\fib-api
 |   .gcloudignore
 |   app.yaml
 |   db.sqlite3
 |   manage.py
 |   README.md
 |   requirements.txt
-|   tree.txt
 |   
-+---FibRestApiProject
+\---FibRestApiProject
 |       asgi.py
 |       settings.py
-|       urls.py
+|       urls.py            # djangoプロジェクトのルーター
 |       wsgi.py
 |       __init__.py
 |       
@@ -54,11 +55,9 @@ C:.
     |   models.py
     |   serializers.py
     |   tests.py
-    |   urls.py
-    |   views.py
+    |   urls.py             # fib_apiのルーター
+    |   views.py            # リクエストに対して返すレスポンスを計算
     |   __init__.py
     |   
     \---migrations
-            0001_initial.py
-            __init__.py
 ```
