@@ -3,18 +3,18 @@
 
 本APIはリクエストに応じてjson形式で結果を返します。
 
-エンドポイントURL: https://fibapp-427213.an.r.appspot.com/fib/
+エンドポイントURL: https://fibapp-427213.an.r.appspot.com/fib
 
 ### 使い方の説明
 第k項の数字をjson形式で得る場合
 
 1. ブラウザ上で取得する場合は、次のURLでリクエストして下さい
     ```url
-    https://fibapp-427213.an.r.appspot.com/fib/?format=json&n=k
+    https://fibapp-427213.an.r.appspot.com/fib?n=k
     ```
 2. CLIで取得する場合は、次のコマンドでリクエストしてください
     ```sh
-    curl -X GET -H "Content-Type: application/json" "https://fibapp-427213.an.r.appspot.com/fib/?format=json&n=k"
+    curl -X GET -H "Content-Type: application/json" "https://fibapp-427213.an.r.appspot.com/fib?n=k"
     ```
 
 ## 実装について
@@ -33,6 +33,7 @@
     - 未対応。
 
 ### ディレクトリ構成
+※ Djangoのスケルトンから大きく変更したのは、下で補足が付いているプログラム
 ```
 \fib-api
 |   .gcloudignore
@@ -44,8 +45,8 @@
 |   
 \---FibRestApiProject
 |       asgi.py
-|       settings.py
-|       urls.py            # djangoプロジェクトのルーター
+|       settings.py        # djangoプロジェクトの設定
+|       urls.py            # djangoプロジェクトのルーティング
 |       wsgi.py
 |       __init__.py
 |       
@@ -54,8 +55,8 @@
     |   apps.py
     |   models.py
     |   serializers.py
-    |   tests.py
-    |   urls.py             # fib_apiのルーター
+    |   tests.py            # UnitTest
+    |   urls.py             # fib_apiのルーティング
     |   views.py            # リクエストに対して返すレスポンスを計算
     |   __init__.py
     |   

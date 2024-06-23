@@ -60,6 +60,7 @@ class FibResult():
     # self.statusによって適切なHTTPステータスコードを返す
     def get_http_status(self):
         # 妥協した実装になっている
+        # オブジェクトの名前とのマッチングでより良い実装に出来る
         dict = {200:status.HTTP_200_OK,400:status.HTTP_400_BAD_REQUEST}
         try:
             http_status = dict[self.status]
