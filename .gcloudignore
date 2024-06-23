@@ -15,5 +15,8 @@
 
 # Python pycache:
 __pycache__/
+fib_api/__pycache__/
+fib_api/migrations/__pycache__/
+FibRestApiProject/__pycache__/
 # Ignored by the build system
 /setup.cfg
